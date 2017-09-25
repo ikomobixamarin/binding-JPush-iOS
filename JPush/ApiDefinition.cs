@@ -7,6 +7,15 @@ using UserNotifications;
 
 namespace JPush_iOS
 {
+    // typedef void (^JPUSHTagsOperationCompletion)(NSInteger, NSSet *, NSInteger);
+    delegate void JPUSHTagsOperationCompletion(nint arg0, NSSet arg1, nint arg2);
+
+    // typedef void (^JPUSHTagValidOperationCompletion)(NSInteger, NSSet *, NSInteger, BOOL);
+    delegate void JPUSHTagValidOperationCompletion(nint arg0, NSSet arg1, nint arg2, bool arg3);
+
+    // typedef void (^JPUSHAliasOperationCompletion)(NSInteger, NSString *, NSInteger);
+    delegate void JPUSHAliasOperationCompletion(nint arg0, string arg1, nint arg2);
+
     [Static]
     partial interface Constants
     {
@@ -224,30 +233,50 @@ namespace JPush_iOS
         [Export("handleRemoteNotification:")]
         void HandleRemoteNotification(NSDictionary remoteInfo);
 
-        // +(void)setTags:(NSSet *)tags alias:(NSString *)alias callbackSelector:(SEL)cbSelector object:(id)theTarget;
+        // +(void)addTags:(NSSet<NSString *> *)tags completion:(JPUSHTagsOperationCompletion)completion seq:(NSInteger)seq;
         [Static]
-        [Export("setTags:alias:callbackSelector:object:")]
-        void SetTags(NSSet tags, string alias, Selector cbSelector, NSObject theTarget);
+        [Export("addTags:completion:seq:")]
+        void AddTags(NSSet<NSString> tags, JPUSHTagsOperationCompletion completion, nint seq);
 
-        // +(void)setTags:(NSSet *)tags callbackSelector:(SEL)cbSelector object:(id)theTarget;
+        // +(void)setTags:(NSSet<NSString *> *)tags completion:(JPUSHTagsOperationCompletion)completion seq:(NSInteger)seq;
         [Static]
-        [Export("setTags:callbackSelector:object:")]
-        void SetTags(NSSet tags, Selector cbSelector, NSObject theTarget);
+        [Export("setTags:completion:seq:")]
+        void SetTags(NSSet<NSString> tags, JPUSHTagsOperationCompletion completion, nint seq);
 
-        // +(void)setTags:(NSSet *)tags alias:(NSString *)alias fetchCompletionHandle:(void (^)(int, NSSet *, NSString *))completionHandler;
+        // +(void)deleteTags:(NSSet<NSString *> *)tags completion:(JPUSHTagsOperationCompletion)completion seq:(NSInteger)seq;
         [Static]
-        [Export("setTags:alias:fetchCompletionHandle:")]
-        void SetTags(NSSet tags, string alias, Action<int, NSSet, NSString> completionHandler);
+        [Export("deleteTags:completion:seq:")]
+        void DeleteTags(NSSet<NSString> tags, JPUSHTagsOperationCompletion completion, nint seq);
 
-        // +(void)setTags:(NSSet *)tags aliasInbackground:(NSString *)alias;
+        // +(void)cleanTags:(JPUSHTagsOperationCompletion)completion seq:(NSInteger)seq;
         [Static]
-        [Export("setTags:aliasInbackground:")]
-        void SetTags(NSSet tags, string alias);
+        [Export("cleanTags:seq:")]
+        void CleanTags(JPUSHTagsOperationCompletion completion, nint seq);
 
-        // +(void)setAlias:(NSString *)alias callbackSelector:(SEL)cbSelector object:(id)theTarget;
+        // +(void)getAllTags:(JPUSHTagsOperationCompletion)completion seq:(NSInteger)seq;
         [Static]
-        [Export("setAlias:callbackSelector:object:")]
-        void SetAlias(string alias, Selector cbSelector, NSObject theTarget);
+        [Export("getAllTags:seq:")]
+        void GetAllTags(JPUSHTagsOperationCompletion completion, nint seq);
+
+        // +(void)validTag:(NSString *)tag completion:(JPUSHTagValidOperationCompletion)completion seq:(NSInteger)seq;
+        [Static]
+        [Export("validTag:completion:seq:")]
+        void ValidTag(string tag, JPUSHTagValidOperationCompletion completion, nint seq);
+
+        // +(void)setAlias:(NSString *)alias completion:(JPUSHAliasOperationCompletion)completion seq:(NSInteger)seq;
+        [Static]
+        [Export("setAlias:completion:seq:")]
+        void SetAlias(string alias, JPUSHAliasOperationCompletion completion, nint seq);
+
+        // +(void)deleteAlias:(JPUSHAliasOperationCompletion)completion seq:(NSInteger)seq;
+        [Static]
+        [Export("deleteAlias:seq:")]
+        void DeleteAlias(JPUSHAliasOperationCompletion completion, nint seq);
+
+        // +(void)getAlias:(JPUSHAliasOperationCompletion)completion seq:(NSInteger)seq;
+        [Static]
+        [Export("getAlias:seq:")]
+        void GetAlias(JPUSHAliasOperationCompletion completion, nint seq);
 
         // +(NSSet *)filterValidTags:(NSSet *)tags;
         [Static]
@@ -364,11 +393,42 @@ namespace JPush_iOS
         [Static]
         [Export("setLogOFF")]
         void SetLogOFF();
+
+        // ! IKOMOBI : We had to comment this method since its signature is already defined bellow
+        // +(void)setTags:(NSSet *)tags alias:(NSString *)alias callbackSelector:(SEL)cbSelector target:(id)theTarget __attribute__((deprecated("JPush 2.1.1 版本已过期")));
+        //[Static]
+        //[Export("setTags:alias:callbackSelector:target:")]
+        //void SetTags(NSSet tags, string alias, Selector cbSelector, NSObject theTarget);
+
+        // +(void)setTags:(NSSet *)tags alias:(NSString *)alias callbackSelector:(SEL)cbSelector object:(id)theTarget __attribute__((deprecated("JPush 3.0.6 版本已过期")));
+        [Static]
+        [Export("setTags:alias:callbackSelector:object:")]
+        void SetTags(NSSet tags, string alias, Selector cbSelector, NSObject theTarget);
+
+        // +(void)setTags:(NSSet *)tags callbackSelector:(SEL)cbSelector object:(id)theTarget __attribute__((deprecated("JPush 3.0.6 版本已过期")));
+        [Static]
+        [Export("setTags:callbackSelector:object:")]
+        void SetTags(NSSet tags, Selector cbSelector, NSObject theTarget);
+
+        // +(void)setTags:(NSSet *)tags alias:(NSString *)alias fetchCompletionHandle:(void (^)(int, NSSet *, NSString *))completionHandler __attribute__((deprecated("JPush 3.0.6 版本已过期")));
+        [Static]
+        [Export("setTags:alias:fetchCompletionHandle:")]
+        void SetTags(NSSet tags, string alias, Action<int, NSSet, NSString> completionHandler);
+
+        // +(void)setTags:(NSSet *)tags aliasInbackground:(NSString *)alias __attribute__((deprecated("JPush 3.0.6 版本已过期")));
+        [Static]
+        [Export("setTags:aliasInbackground:")]
+        void SetTags(NSSet tags, string alias);
+
+        // +(void)setAlias:(NSString *)alias callbackSelector:(SEL)cbSelector object:(id)theTarget __attribute__((deprecated("JPush 3.0.6 版本已过期")));
+        [Static]
+        [Export("setAlias:callbackSelector:object:")]
+        void SetAlias(string alias, Selector cbSelector, NSObject theTarget);
     }
 
     // @protocol JPUSHRegisterDelegate <NSObject>
+    [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    [Model]
     interface JPUSHRegisterDelegate
     {
         // @required -(void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler;

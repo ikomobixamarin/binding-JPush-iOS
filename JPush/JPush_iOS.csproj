@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,6 +10,15 @@
     <RootNamespace>JPush</RootNamespace>
     <AssemblyName>JPush</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>ikomobi.BindingJPushiOS</PackageId>
+    <PackageVersion>1.1.0</PackageVersion>
+    <Authors>Ikomobi</Authors>
+    <Owners>Ikomobi</Owners>
+    <PackageProjectUrl>https://github.com/ikomobixamarin/binding-JPush-iOS</PackageProjectUrl>
+    <PackageTags>ios binding library jpush</PackageTags>
+    <Title>iOS binding project for JPush</Title>
+    <Description>An iOS binding library for JPush</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,16 +52,20 @@
     <ObjcBindingCoreSource Include="Structs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="jpush-ios-3.0.5.a">
+    <NativeReference Include="jpush-ios-3.0.6.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
       <Frameworks>CFNetwork CoreFoundation CoreTelephony SystemConfiguration CoreGraphics Security AdSupport UserNotifications</Frameworks>
     </NativeReference>
-    <NativeReference Include="jcore-ios-1.1.3.a">
+    <NativeReference Include="jcore-ios-1.1.5.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
       <Frameworks>CFNetwork CoreFoundation CoreTelephony SystemConfiguration CoreGraphics Security AdSupport UserNotifications</Frameworks>
     </NativeReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
+  <Import Project="..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.targets')" />
 </Project>

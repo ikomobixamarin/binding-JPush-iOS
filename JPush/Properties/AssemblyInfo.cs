@@ -13,9 +13,9 @@ using Foundation;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("JPush_iOS")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("iOS Binding library for JPush")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("OAB")]
+[assembly: AssemblyCompany("Ikomobi")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
